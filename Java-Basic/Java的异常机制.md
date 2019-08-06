@@ -10,7 +10,7 @@
 针对性地处理异常，让程序尽最大可能恢复正常并继续执行，且保持代码的清晰。
  
 ### Java 异常层级结构
-![Exception-Hierarchy-Diagram.png](_pic/Exception-Hierarchy-Diagram.png) 
+![Exception-Hierarchy-Diagram.png](../_pic/Exception-Hierarchy-Diagram.png) 
 
 ## Throwable类
 是Java异常类型的顶层父类。
