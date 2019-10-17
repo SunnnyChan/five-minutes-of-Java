@@ -1,6 +1,5 @@
 # Java 的异常机制
-
-2019-07-30 by 陈光
+> 2019-07-30 by sunnnychan@gmail.com
 
 ## What Is Exception
 程序运行时，发生的不被期望的事件，阻止了程序按预期正常执行，这就是异常。
@@ -109,7 +108,6 @@ public class MyBusinessException extends Exception {
 
 ## Pitfall
 1. 多个 Catch 时，最先捕获特定的异常，否则可能导致后面的异常永远不可能捕获。
-
 
 ## 参考
 * [Why, When and How to Implement Custom Exceptions in Java](https://stackify.com/java-custom-exceptions/)
