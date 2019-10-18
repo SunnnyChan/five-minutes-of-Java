@@ -1,6 +1,41 @@
-# Null 检查 & NullPointerException（NPE）检测
+# “Java五分钟” - null & NullPointerException（NPE）
 
-## Null 检查
+![Photo by SunnyChan](http://112.126.103.179/upload/2019/10/LiuXingHuaYuan-96821933e78c4122abe39b12cbd57809.JPG)
+
+Java 的 null 确实是一个麻烦的存在，只要你稍不注意，就会就会碰到 NullPointerException（NPE）的困扰。
+甚至 NPE 的发明人 Tony Hoare 在 2009年说：“null 引用的设计是一个十亿美元的错误”。
+
+然而 null 又是 Java 中一个基础又重要的概念，你又不得不深入的去了解它。
+接下来我们看看怎么更好的在你的代码中处理 null。
+
+## 什么是 null
+null 是 Java 中的关键字，它是大小写敏感的。
+
+### 空类型 和 空引用
+Java 中的类型区分为，值类型 和 引用 类型，通常我们理解 null 是一个空引用，代表不确定性的对象。
+实际上 null 的类型是 [空类型](https://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.1)，空引用是空类型的唯一可能的值。
+空类型没有名称，因此无法声明空类型的变量或将其他对象强制转换为空类型，但空引用始终可以转换为任何引用类型。
+
+当 JVM 尝试对变量进行解引用，发现变量值是 null 而不是对象时，都会引发 NullPointerException。
+导致这个问题的原因还是 Java 类型系统设计的不够合理，空类型实际上是和具体的对象引用类型存在区别，但是并没有在语言层面做约束。
+
+而 Java 中规定任何已声明但未初始化的引用变量都会自动引用 null，这也导致了 NPE 的频发。 
+
+### null 的语义
+上面说到 null 标识空类型，这是明确的。但如果结合代码语境，有时 null 所表达的语义又会含糊不清。
+例如，Map.get(key) 返回 Null 时，可能表示 map 中的值是 null ，亦或 map 中没有 key 对应的值。
+有时候程序员会用 null 来表示失败、成功，甚至几乎任何情况。
+
+## null 的处理
+根据上面的分析，要处理好 null，需要对 null 做好检查，以及定义清楚清楚 null 表达的含义。
+另外就是一些 避免 NPE 的好的代码实践。
+
+## null 检查
+由于 NPE 带来的恐慌，出现一些极端的编码实践，如 对引用变量的每次解引用前都做 null 值检查。
+带来的问题就是 代码中出现大量的样板代码，浪费大量的时间，提高了代码的维护成本。
+
+以下是一些 null 检查方法的总结，大家可以酌情在代码中使用。
+
 ### Java7 java.util.Objects API
 * Objects.isNull()
 
@@ -97,4 +132,28 @@ StringUtils.isNotBlank(""): false
 StringUtils.isNotBlank(" "): false
 ```
 
-## NullPointerException（NPE）检测
+## 避免 NullPointerException（NPE）
+除了上述 对 null 做好检查 来避免 NPE 外，我们还可以有以下的编程实践：
+
+1. 使用 "xxxx".equal(str) 而不是str.equal( "xxxx") 
+2. 使用String.valueOf() 代替 toString()
+```java
+public static String valueOf(Object obj) {
+    return (obj == null) ? "null" : obj.toString();
+}
+```
+3. expression ? value1 : value2
+4. 使用空集合而不是 null 来初始化 集合变量
+
+## NPE 处理的一些其它思路
+* 不要做 null 检查
+[Why I Never Null-Check Parameters](https://dzone.com/articles/why-i-never-null-check-parameters)
+
+* Groovy 和 C＃等其他语言提供空条件运算符
+```C#
+int? length = customers?.Length; // null if customers is null   
+```
+可以使用 Java 8 中的某些功能功能（例如方法引用）来创建类似的功能。
+
+## 参考
+[Better Null-Checking in Java](https://dev.to/scottshipp/better-null-checking-in-java-ngk)
